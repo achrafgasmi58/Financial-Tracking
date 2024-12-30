@@ -1,7 +1,9 @@
 from flask import Flask
-from .extensions import db, migrate
+
 from .models import User, Transaction, Budget, AIInsight  # Import models
 from .blueprints import register_blueprints
+
+from .extensions import db, migrate, bcrypt, jwt
 
 def create_app(config_class='app.config.Config'):
     app = Flask(__name__)
@@ -10,6 +12,8 @@ def create_app(config_class='app.config.Config'):
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
 
     # Register blueprints
     register_blueprints(app)
